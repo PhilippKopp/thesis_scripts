@@ -2,7 +2,7 @@
 
 import glob, os, sys
 import eos_starter_lib as esl
-from concurrent.futures import ThreadPoolExecutor, wait, ALL_COMPLETED
+from concurrent.futures import ThreadPoolExecutor
 
 EXE = "/user/HS204/m09113/eos/eos_build14/examples/fit-model-multi-shape-exp"
 
@@ -10,7 +10,7 @@ LOGNAME = "fitting.log"
 
 OUTPUTBASE = "/vol/vssp/facer2vm/people/Philipp/KF-ITW-prerelease/"
 
-EXPERIMENT = "multi_iter400_reg15/"
+EXPERIMENT = "multi_iter400_reg45/"
 
 message = ""
 
@@ -19,6 +19,8 @@ OVERWRITE = False
 
 id_folders = glob.glob("/user/HS204/m09113/facer2vm_project_area/data/KF-ITW-prerelease/*")
 #id_folders = os.walk("/user/HS204/m09113/facer2vm_project_area/data/KF-ITW-prerelease/").next()[1]
+
+print (EXPERIMENT)
 
 with ThreadPoolExecutor(max_workers=20) as executor:
 	for n in range(0,len(id_folders)):
@@ -69,10 +71,10 @@ with ThreadPoolExecutor(max_workers=20) as executor:
 		
 		
 				# prepare multi image fit command
-				cmd = esl.assemble_command(EXE, lms, imgs, outputfolder, regularisation=15.0)
+				cmd = esl.assemble_command(EXE, lms, imgs, outputfolder, regularisation=45.0)
 		
 				# print id and start cmd
-				executor.submit(esl.start_and_log,"multiframe fitting on "+message, cmd, 21600, log=outputfolder+LOGNAME)
+				executor.submit(esl.start_and_log,"multiframe fitting on "+message, cmd, None, log=outputfolder+LOGNAME) #21600
 				
 			except Exception as e:
 				print("ERROR on " + message + ": " + str(e))

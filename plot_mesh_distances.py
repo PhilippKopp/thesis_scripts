@@ -2,7 +2,8 @@
 
 import sys
 from glob import glob
-SAVE="/user/HS204/m09113/my_project_folder/Results/KF-ITW_comp_expressions_multi"
+import numpy as np
+SAVE="/user/HS204/m09113/my_project_folder/Results/KF-ITW_take_mean_of_vertex_error"
 SAVE=None
 
 if SAVE:
@@ -42,10 +43,11 @@ EXPRESSION = '*/'
 EXPERIMENT = 'multi_iter400_reg30/'
 
 # comparing experiments
-#distance_files = [ ['single mean all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/mean.distances.log')],
-#				   ['single all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/???.distances.log')],
-#				   ['multi all','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg30/distances.log')],
-#				  ]
+distance_files = [ ['single mean all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/mean.distances.log')],
+				   ['single all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/???.distances.log')],
+				   ['multi all reg30','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg30/distances.log')],
+				   ['multi all reg15','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg15/distances.log')],
+				  ]
 # comparing expressions
 #distance_files = [ ['neutral','*',glob(DB_BASE+ID+'neutral/'+EXPERIMENT+'distances.log')],
 #				   ['happy','*',glob(DB_BASE+ID+'happy/'+EXPERIMENT+'distances.log')],
@@ -59,10 +61,13 @@ EXPERIMENT = 'multi_iter400_reg30/'
 #				   ['16','*',glob(DB_BASE+'16/'+EXPRESSION+EXPERIMENT+'distances.log')],
 #		]
 
-distance_files = [ ['single 02 happy 29k','*',['/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/happy/single_iter400_reg300_m29k/001.distances.log']],
-					['single 02 happy 3500','*',['/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/happy/single_iter400_reg30/001.distances.log']]
-]
+#distance_files = [ ['single 02 happy 29k','*',['/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/happy/single_iter400_reg300_m29k/001.distances.log']],
+#					['single 02 happy 3500','*',['/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/happy/single_iter400_reg30/001.distances.log']]
+#]
 
+#distance_files = [ ['single 08 neutral','*',['/user/HS204/m09113/my_project_folder/KF-ITW-single_test_08_neutral/08/neutral/distances.log']],
+#					['single 08 neutral with mask','*',['/user/HS204/m09113/my_project_folder/KF-ITW-single_test_08_neutral_mask/08/neutral/merged.distances.log']]
+#]
 
 # read diffs from files
 
@@ -70,9 +75,10 @@ for curve_idx in range(len(distance_files)):
 	diffs = []
 	for distance_file in distance_files[curve_idx][2]:
 		with open(distance_file, "r") as diff_file:
-		
+			temp=[]
 			for line in diff_file:
-				diffs.extend([float(i) for i in line.split()])
+				temp.extend([float(i) for i in line.split()])
+		diffs.extend(temp)   #diffs.extend(temp) diffs.append(np.mean(temp))
 	diffs.sort()
 	#diffs = diffs[0:int(len(diffs)*2/3)]
 	#print len(diffs)
