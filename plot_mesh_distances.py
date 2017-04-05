@@ -43,11 +43,11 @@ EXPRESSION = '*/'
 EXPERIMENT = 'multi_iter400_reg30/'
 
 # comparing experiments
-distance_files = [ ['single mean all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/mean.distances.log')],
-				   ['single all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/???.distances.log')],
-				   ['multi all reg30','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg30/distances.log')],
-				   ['multi all reg15','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg15/distances.log')],
-				  ]
+#distance_files = [ ['single mean all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/mean.distances.log')],
+#				   ['single all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/???.distances.log')],
+#				   ['multi all reg30','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg30/distances.log')],
+#				   ['multi all reg15','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg15/distances.log')],
+#				  ]
 # comparing expressions
 #distance_files = [ ['neutral','*',glob(DB_BASE+ID+'neutral/'+EXPERIMENT+'distances.log')],
 #				   ['happy','*',glob(DB_BASE+ID+'happy/'+EXPERIMENT+'distances.log')],
@@ -68,29 +68,42 @@ distance_files = [ ['single mean all','*',glob(DB_BASE+ID+EXPRESSION+'single_ite
 #distance_files = [ ['single 08 neutral','*',['/user/HS204/m09113/my_project_folder/KF-ITW-single_test_08_neutral/08/neutral/distances.log']],
 #					['single 08 neutral with mask','*',['/user/HS204/m09113/my_project_folder/KF-ITW-single_test_08_neutral_mask/08/neutral/merged.distances.log']]
 #]
+distance_files = [ ['multi 02 neutral pymesh imp','*',['/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/neutral/multi_iter400_reg30/distances.log']],
+			       ['multi 02 neutral own','*',['/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/neutral/multi_iter400_reg30/distances_own.log']]
+				 ]
 
+NORMALIZE = True
 # read diffs from files
 
+def read_distance_file(file):
+	#diffs = []
+	with open(file, "r") as f:
+		f.readline() # header for distances
+		diffs = [float(i) for i in f.readline().split()]
+		f.readline() # header for inter eye distance
+		inter_eye_distance = float(f.readline())
+	return diffs, inter_eye_distance
+
+
+
 for curve_idx in range(len(distance_files)):
-	diffs = []
+	all_diffs = []
 	for distance_file in distance_files[curve_idx][2]:
-		with open(distance_file, "r") as diff_file:
-			temp=[]
-			for line in diff_file:
-				temp.extend([float(i) for i in line.split()])
-		diffs.extend(temp)   #diffs.extend(temp) diffs.append(np.mean(temp))
-	diffs.sort()
-	#diffs = diffs[0:int(len(diffs)*2/3)]
-	#print len(diffs)
+		diffs, inter_eye_distance = read_distance_file(distance_file)
+		if (NORMALIZE):
+			diffs = [d / inter_eye_distance for d in diffs]
+		all_diffs.extend(diffs)
+	all_diffs.sort()
+	
 	# assemble x and y coordinates
 	delta = 0.005
-	x_max = 0.06
+	x_max = 0.1
 	x_coordinates = [i*delta for i in range(int(x_max/delta)+1)]
 	y_coordinates = []
 	for x in x_coordinates:
-		for j, diff in enumerate(diffs):	
+		for j, diff in enumerate(all_diffs):	
 			if (diff>x):
-				y_coordinates.append(j/len(diffs))
+				y_coordinates.append(j/len(all_diffs))
 				#print str(diff)+"  "+str(x)+"  "+str(j)
 				break
 	# make sure y is as long as x, if not fill with 1

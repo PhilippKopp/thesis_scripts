@@ -10,7 +10,7 @@ LOGNAME = "fitting.log"
 
 OUTPUTBASE = "/vol/vssp/facer2vm/people/Philipp/KF-ITW-prerelease/"
 
-EXPERIMENT = "multi_iter400_reg45/"
+EXPERIMENT = "multi_iter400_reg5/"
 
 message = ""
 
@@ -71,7 +71,7 @@ with ThreadPoolExecutor(max_workers=20) as executor:
 		
 		
 				# prepare multi image fit command
-				cmd = esl.assemble_command(EXE, lms, imgs, outputfolder, regularisation=45.0)
+				cmd = esl.assemble_command(EXE, lms, imgs, outputfolder, regularisation=5.0)
 		
 				# print id and start cmd
 				executor.submit(esl.start_and_log,"multiframe fitting on "+message, cmd, None, log=outputfolder+LOGNAME) #21600
