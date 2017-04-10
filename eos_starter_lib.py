@@ -17,7 +17,7 @@ class EslException(Exception):
 	pass
 
 
-def assemble_command( exe, lms, imgs, out, regularisation=None):
+def assemble_command( exe, lms, imgs, out, regularisation=None, iterations=None):
 	imgs_param = "-i "
 	lms_param  = "-l "
 
@@ -36,6 +36,8 @@ def assemble_command( exe, lms, imgs, out, regularisation=None):
 	cmd += " " + imgs_param + lms_param + "-o " + out
 	if regularisation:
 		cmd += " -r " + str(regularisation)
+	if iterations:
+		cmd += " -t " + str(iterations)
 
 	return cmd
 

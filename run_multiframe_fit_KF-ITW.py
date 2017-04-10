@@ -10,11 +10,11 @@ LOGNAME = "fitting.log"
 
 OUTPUTBASE = "/vol/vssp/facer2vm/people/Philipp/KF-ITW-prerelease/"
 
-EXPERIMENT = "multi_iter400_reg5/"
+EXPERIMENT = "multi_iter50_reg30/"
 
 message = ""
 
-OVERWRITE = False
+OVERWRITE = True
 
 
 id_folders = glob.glob("/user/HS204/m09113/facer2vm_project_area/data/KF-ITW-prerelease/*")
@@ -32,9 +32,6 @@ with ThreadPoolExecutor(max_workers=20) as executor:
 		# check if it's a folder
 		if (not os.path.isdir(id_folder)):
 			continue;		
-	
-		if (not os.path.isdir(id_folder)):
-			continue
 	
 		expressions = next(os.walk(id_folder))[1]
 	
@@ -71,7 +68,7 @@ with ThreadPoolExecutor(max_workers=20) as executor:
 		
 		
 				# prepare multi image fit command
-				cmd = esl.assemble_command(EXE, lms, imgs, outputfolder, regularisation=5.0)
+				cmd = esl.assemble_command(EXE, lms, imgs, outputfolder, regularisation=30.0, iterations=50)
 		
 				# print id and start cmd
 				executor.submit(esl.start_and_log,"multiframe fitting on "+message, cmd, None, log=outputfolder+LOGNAME) #21600

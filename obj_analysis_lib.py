@@ -602,3 +602,32 @@ def measure_distances_on_surface_non_registered_pymesh(source_obj_file, destinat
 	squared_distances, face_indices, closest_points = pymesh.distance_to_mesh(destination_mesh, source_points)
 	distances =[math.sqrt(d2) for d2 in squared_distances]
 	return distances
+
+
+def read_fitting_log(fitting_log_file):
+	with open(fitting_log_file, "r") as fitting_log:
+		cmd = fitting_log.readline()
+		
+		line=''
+		while not line.startswith("2017"):
+			line = fitting_log.readline()
+		start_time = line
+
+		line=''
+		while not line.startswith("final pca shape coefficients:"):
+			line = fitting_log.readline()
+		alphas = line.split(':')[1]		
+		alphas = [float(i) for i in alphas.split()]
+
+
+		line=''
+		while not line.startswith("mean blendshape"):
+			line = fitting_log.readline()
+		blendshapes = line		
+
+		line=''
+		while not line.startswith("2017"):
+			line = fitting_log.readline()
+		end_time = line
+
+		return alphas

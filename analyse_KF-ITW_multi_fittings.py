@@ -11,7 +11,7 @@ IDS = ['/02/', '/08/', '/11/', '/13/', '/16/']
 EXPRESSIONS = ['/neutral/', '/happy/', '/surprised/' ]
 DB_GT_BASE='/user/HS204/m09113/facer2vm_project_area/data/KF-ITW-prerelease'
 DB_FITS_BASE='/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/'
-EXPERIMENT= 'multi_iter400_reg30/'
+EXPERIMENT= 'multi_iter50_reg30/'
 
 
 
@@ -40,19 +40,14 @@ for ID in IDS:
 		distances_obj = DB_FITS_BASE+ID+EXPRESSION+EXPERIMENT+'distances_v3.obj'
 
 		print ("aligning, registering and measuring distance of fit of ID ", ID, " and Expression ", EXPRESSION)
-		#print (str(datetime.now()))
+		
+		#### Do the real work
 		oal.register_and_align_KF_ITW_to_surrey(fit_obj_model, gt_imp_vertices, gt_obj_model, registered_gt_obj_model, aligned_gt_obj_model, use_vertices=oal.get_lsfm_crop_mask_surrey_3448_vertices())
-
-
-		#print("finished registering and alignment, starting distance measurement")
-		#print (str(datetime.now()))
-		#distances = oal.measure_distances_on_surface_non_registered( source_obj_file=aligned_gt_obj_model, destination_obj_file=fit_obj_model, measure_on_source_vertices=oal.get_lsfm_crop_mask_surrey_3448_vertices())
+		
 		distances = oal.measure_distances_on_surface_non_registered_pymesh( source_obj_file=aligned_gt_obj_model, destination_obj_file=fit_obj_model, measure_on_source_vertices=oal.get_lsfm_crop_mask_surrey_3448_vertices())
 		oal.write_colored_mesh(aligned_gt_obj_model, mask=oal.get_lsfm_crop_mask_surrey_3448_vertices(), outputfile=distances_obj, color_values=distances)
-		#print("finished distance measurement")
-		#print (str(datetime.now()))
 
-		# normalize distances by inter eye distance
+		# get eye positions
 		eye_positions = oal.get_vertex_positions(fit_obj_model, oal.surrey_outer_eye_vertices)
 		inter_ocular_distance = oal.calc_distance(eye_positions[0,:], eye_positions[1,:])
 
@@ -78,5 +73,4 @@ for ID in IDS:
 			analysis.write("distances written here: "+distances_log+"\n")
 			analysis.write("exterior eye corners used! \n")
 			analysis.write("mask cropped lsfm model used! \n")
-		exit()
 
