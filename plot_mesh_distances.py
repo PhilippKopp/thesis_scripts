@@ -3,8 +3,8 @@
 import sys
 from glob import glob
 import numpy as np
-SAVE="/user/HS204/m09113/my_project_folder/Results/KF-ITW_take_mean_of_vertex_error"
-SAVE=None
+SAVE="/user/HS204/m09113/my_project_folder/Results/mesh_distances_KF-ITW_fitting_types"
+#SAVE=None
 
 if SAVE:
 	import texfig
@@ -61,17 +61,17 @@ distance_files = [ ['single mean all','*',glob(DB_BASE+ID+EXPRESSION+'single_ite
 #				  ]
 
 # comparing number of iterations
-distance_files = [  ['multi 400 iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg30/'+DISTANCE_FILE_NAME)],
-					['multi 100 iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter100_reg30/'+DISTANCE_FILE_NAME)],
-					['multi 50  iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter50_reg30/'+DISTANCE_FILE_NAME)],
-					['multi 10  iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter10_reg30/'+DISTANCE_FILE_NAME)],
-					['multi 5   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter5_reg30/'+DISTANCE_FILE_NAME)],
-					['multi 4   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter4_reg30/'+DISTANCE_FILE_NAME)],
-					['multi 3   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter3_reg30/'+DISTANCE_FILE_NAME)],
-					['multi 2   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter2_reg30/'+DISTANCE_FILE_NAME)],
-					['multi 1   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter1_reg30/'+DISTANCE_FILE_NAME)],
-					['mean face','o',glob(DB_BASE+ID+EXPRESSION+'mean_face/'+DISTANCE_FILE_NAME)],
-				 ]
+#distance_files = [  ['multi 400 iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg30/'+DISTANCE_FILE_NAME)],
+#					['multi 100 iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter100_reg30/'+DISTANCE_FILE_NAME)],
+#					['multi 50  iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter50_reg30/'+DISTANCE_FILE_NAME)],
+#					['multi 10  iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter10_reg30/'+DISTANCE_FILE_NAME)],
+#					['multi 5   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter5_reg30/'+DISTANCE_FILE_NAME)],
+#					['multi 4   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter4_reg30/'+DISTANCE_FILE_NAME)],
+#					['multi 3   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter3_reg30/'+DISTANCE_FILE_NAME)],
+#					['multi 2   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter2_reg30/'+DISTANCE_FILE_NAME)],
+#					['multi 1   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter1_reg30/'+DISTANCE_FILE_NAME)],
+#					['mean face','o',glob(DB_BASE+ID+EXPRESSION+'mean_face/'+DISTANCE_FILE_NAME)],
+#				 ]
 
 
 # comparing expressions

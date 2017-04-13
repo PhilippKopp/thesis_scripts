@@ -93,6 +93,8 @@ def start_and_log(message, cmd, timeout_sec, log):
 			logfile.write(stdout + "\n \n")
 			logfile.write(stderr + "\n \n")
 			logfile.write(str(datetime.datetime.now()))
+		if stderr != "":
+			print ('Error on',message,":",stderr)
 	except EslException as e:
 		with open(log, "a") as logfile:
 			logfile.write("ERROR on " + message + ": " + str(e) + "\n \n")

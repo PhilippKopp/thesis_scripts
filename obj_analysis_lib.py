@@ -605,29 +605,31 @@ def measure_distances_on_surface_non_registered_pymesh(source_obj_file, destinat
 
 
 def read_fitting_log(fitting_log_file):
+	lines = []
 	with open(fitting_log_file, "r") as fitting_log:
-		cmd = fitting_log.readline()
+		for line in fitting_log:
+			lines.append(line)
+
+	#print (lines)
+	alphas = None
+	for line in lines:
+		if line.startswith("final pca shape coefficients:"):
+			alphas = line.split(':')[1]		
+			alphas = [float(i) for i in alphas.split()]
+			break
+
+	all_angles = []
+	for line in lines:
+		if line.startswith("yaw"):
+			angles = line.split()[1::2]
+			angles = [float(i) for i in angles]
+			all_angles.append(angles)
+	
+	#print ('no alphas found in fitting log:',fitting_log_file)
+	if alphas==None:
+		raise OalException('no alphas found in fitting log:',fitting_log_file)
 		
-		line=''
-		while not line.startswith("2017"):
-			line = fitting_log.readline()
-		start_time = line
-
-		line=''
-		while not line.startswith("final pca shape coefficients:"):
-			line = fitting_log.readline()
-		alphas = line.split(':')[1]		
-		alphas = [float(i) for i in alphas.split()]
-
-
-		line=''
-		while not line.startswith("mean blendshape"):
-			line = fitting_log.readline()
-		blendshapes = line		
-
-		line=''
-		while not line.startswith("2017"):
-			line = fitting_log.readline()
-		end_time = line
-
-		return alphas
+	if not all_angles:
+		print ("WARNING: No angles found in fitting log file",fitting_log_file)
+	
+	return alphas, all_angles
