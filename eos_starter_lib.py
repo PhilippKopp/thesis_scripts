@@ -6,18 +6,31 @@ from threading import Timer
 
 
 # important paths
-MODEL   = "/user/HS204/m09113/eos/install/share/sfm_shape_3448.bin"
-MAPPING = "/user/HS204/m09113/eos/install/share/ibug_to_sfm.txt"
-CONTOUR = "/user/HS204/m09113/eos/install/share/model_contours.json"
-EDGETOP = "/user/HS204/m09113/eos/install/share/sfm_3448_edge_topology.json"
-BLENDSH = "/user/HS204/m09113/eos/install/share/expression_blendshapes_3448.bin"
+MAPPING34 = "/user/HS204/m09113/my_project_folder/mm_shapes_masks/3448_model/ibug_to_sfm.txt"
+#MODEL34   = "/user/HS204/m09113/my_project_folder/mm_shapes_masks/3448_model/sfm_shape_3448.bin"
+MODEL34   = "/user/HS204/m09113/my_project_folder/mm_shapes_masks/3448_model/surrey_3448_new_mapping.bin"
+CONTOUR34 = "/user/HS204/m09113/my_project_folder/mm_shapes_masks/3448_model/model_contours.json"
+EDGETOP34 = "/user/HS204/m09113/my_project_folder/mm_shapes_masks/3448_model/sfm_3448_edge_topology.json"
+BLENDSH34 = "/user/HS204/m09113/my_project_folder/mm_shapes_masks/3448_model/expression_blendshapes_3448.bin"
+
+MAPPING17 = "/user/HS204/m09113/eos/install/share/ibug_to_sfm.txt"
+MODEL17 = "/vol/vssp/dataweb/faceweb/3dmm/facemodels/shape/sfm_shape_1724.bin"
+CONTOUR17 = "/user/HS204/m09113/eos/install/share/model_contours.json"
+EDGETOP17 = "/vol/vssp/dataweb/faceweb/3dmm/facemodels/shape/sfm_1724_edge_topology.json"
+BLENDSH17 = "/vol/vssp/dataweb/faceweb/3dmm/facemodels/shape/expression_blendshapes_1724.bin"
+
+MAPPING08 = "/user/HS204/m09113/my_project_folder/mm_shapes_masks/845_model/ibug_to_sfm.txt"
+MODEL08 = "/user/HS204/m09113/my_project_folder/mm_shapes_masks/845_model/sfm_shape_845r.bin"
+CONTOUR08 = "/user/HS204/m09113/eos/install/share/model_contours.json"
+EDGETOP08 = "/user/HS204/m09113/my_project_folder/mm_shapes_masks/845_model/sfm_845_edge_topology.json"
+BLENDSH08 = "/user/HS204/m09113/my_project_folder/mm_shapes_masks/845_model/expression_blendshapes_845.bin"
 
 
 class EslException(Exception):
 	pass
 
 
-def assemble_command( exe, lms, imgs, out, regularisation=None, iterations=None):
+def assemble_command( exe, lms, imgs, out, regularisation=None, iterations=None, model="3.4k"):
 	imgs_param = "-i "
 	lms_param  = "-l "
 
@@ -31,8 +44,14 @@ def assemble_command( exe, lms, imgs, out, regularisation=None, iterations=None)
 		for i in range(len(lms)):
 			imgs_param = imgs_param + imgs[i] + " "
 			lms_param  = lms_param  + lms[i]  + " "
-			
-	cmd = exe + " -m " + MODEL + " -p " + MAPPING + " -c " + CONTOUR + " -e " + EDGETOP + " -b " + BLENDSH
+	if model=="3.4k":
+		cmd = exe + " -m " + MODEL34 + " -p " + MAPPING34 + " -c " + CONTOUR34 + " -e " + EDGETOP34 + " -b " + BLENDSH34
+	elif model =="1.7k":
+		cmd = exe + " -m " + MODEL17 + " -p " + MAPPING17 + " -c " + CONTOUR17 + " -e " + EDGETOP17 + " -b " + BLENDSH17
+	elif model =="0.8k":
+		cmd = exe + " -m " + MODEL08 + " -p " + MAPPING08 + " -c " + CONTOUR08 + " -e " + EDGETOP08 + " -b " + BLENDSH08
+	else:
+		raise EslException("Not correctly specified a model!!")
 	cmd += " " + imgs_param + lms_param + "-o " + out
 	if regularisation:
 		cmd += " -r " + str(regularisation)
@@ -50,7 +69,7 @@ def find_imgs_to_lms (lms, extensions):
 			for extension in extensions:
 				img.extend(glob.glob(os.path.splitext(lm)[0]+extension))
 			if ( len(img)!=1):
-				raise EslException('Not equal number of lm and imgs found!')
+				raise EslException('No or several Image(s) found for lm file '+lm)
 			imgs.append(img[0])
 
 	return imgs

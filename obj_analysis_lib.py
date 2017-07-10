@@ -12,18 +12,33 @@ import math
 surrey_eye_vertices = [171, 604] #right eye centre, left eye centre
 surrey_outer_eye_vertices = [177, 610] # right eye outer, left eye outer
 surrey_imp_vertices = [114, 177, 181, 614, 610, 436, 424, 398, 401, 812]
+basel_imp_vertices = [8189, 2088, 6213, 10075, 14197, 8202, 8225, 6038, 8348, 10407]
+basel_outer_eye_vertices = [2088, 14197] # right eye outer, left eye outer
 lsfm_crop_mask_surrey_3448_vertices = None
+basel_circle_mask = None
 
 
 ALL_POINTS = "ALL_POINTS"
 
-def get_lsfm_crop_mask_surrey_3448_vertices(mask_txt_file="/user/HS204/m09113/Desktop/mask_3448/vertices.txt"):
+def get_lsfm_crop_mask_surrey_3448_vertices(mask_txt_file="/user/HS204/m09113/my_project_folder/mm_shapes_masks/surrey_mask_3448/vertices.txt"):
 	global lsfm_crop_mask_surrey_3448_vertices
 	if not lsfm_crop_mask_surrey_3448_vertices:
 		lsfm_crop_mask_surrey_3448_vertices = np.loadtxt(mask_txt_file).astype(int).tolist()
 	return lsfm_crop_mask_surrey_3448_vertices
 
-	
+def get_lsfm_crop_mask_surrey_845_vertices(mask_txt_file="/user/HS204/m09113/my_project_folder/mm_shapes_masks/surrey_mask_3448/vertices.txt"):
+        global lsfm_crop_mask_surrey_3448_vertices
+        if not lsfm_crop_mask_surrey_3448_vertices:
+                lsfm_crop_mask_surrey_3448_vertices = np.loadtxt(mask_txt_file).astype(int).tolist()
+        s845_list = [elem for elem in lsfm_crop_mask_surrey_3448_vertices if elem < 845]
+        return s845_list
+
+
+def get_basel_circle_mask(mask_txt_file="/user/HS204/m09113/my_project_folder/mm_shapes_masks/basel_1_15_circle_mask/basel_circle_mask.txt"):
+	global basel_circle_mask
+	if not basel_circle_mask:
+		basel_circle_mask = np.loadtxt(mask_txt_file).astype(int).tolist()
+	return basel_circle_mask
 
 
 def get_KF_ITW_vertex_ids(ID, EXPRESSION):
@@ -629,7 +644,40 @@ def read_fitting_log(fitting_log_file):
 	if alphas==None:
 		raise OalException('no alphas found in fitting log:',fitting_log_file)
 		
-	if not all_angles:
-		print ("WARNING: No angles found in fitting log file",fitting_log_file)
+	#if not all_angles:
+	#	print ("WARNING: No angles found in fitting log file",fitting_log_file)
 	
 	return alphas, all_angles
+
+
+
+def read_fitting_time_from_log(fitting_log_file):
+	from datetime import datetime
+	lines = []
+	with open(fitting_log_file, "r") as fitting_log:
+		for line in fitting_log:
+			lines.append(line)
+
+	#print (lines)
+	start_time = None
+	end_time = None
+	for line in lines:
+		#if line.startswith("2017"):
+		#	if start_time is None:
+		#		start_time  = datetime.strptime(line[0:-1], "%Y-%m-%d %H:%M:%S.%f")
+		#	else:
+		#		end_time  = datetime.strptime(line[0:-1], "%Y-%m-%d %H:%M:%S.%f")
+		if line.startswith("loaded everything, starting fitting "):
+			start_time = datetime.strptime(line[len("loaded everything, starting fitting "):-5], "%H:%M:%S.%f")
+		elif line.startswith("finished fitting "):
+			end_time = datetime.strptime(line[len("finished fitting "):-5], "%H:%M:%S.%f")
+	
+	if start_time is None or end_time is None:
+		raise OalException("ERROR did not find two times in", fitting_log_file)
+
+	delta_overall = end_time - start_time
+
+	return delta_overall.total_seconds()
+
+
+

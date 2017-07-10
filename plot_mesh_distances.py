@@ -3,17 +3,29 @@
 import sys
 from glob import glob
 import numpy as np
-SAVE="/user/HS204/m09113/my_project_folder/Results/mesh_distances_KF-ITW_fitting_types"
-#SAVE=None
+from cycler import cycler
 
-if SAVE:
+OUTPUTPATH="/user/HS204/m09113/my_project_folder/Results/mesh_distances_KF-ITW_patrik_thesis"
+#OUTPUTPATH="/user/HS204/m09113/my_project_folder/Results/mesh_distances_KF-ITW_iterations_thesis"
+#OUTPUTPATH='mesh_distances_KF-ITW_fitting_types_BMVC'
+SAVE4PRES =None
+SAVE4LATEX=None
+
+SAVE4LATEX=OUTPUTPATH
+#SAVE4PRES =OUTPUTPATH
+
+
+if SAVE4LATEX:
 	import texfig
 import matplotlib.pyplot as plt
 
-if SAVE:
-	fig = texfig.figure(width=8.268) #entire page
+if SAVE4LATEX:
+	#fig = texfig.figure(width=8.268) #entire page
+	fig = texfig.figure(width=4.8) #philipp thesis 5.8
 
-
+if SAVE4PRES:
+	#plt.rcParams["font.family"] ="monospace"
+	plt.figure(figsize=(10, 8/3*2))
 
 # each curve has: label, marker, [log files]
 #comparing every multifit
@@ -32,8 +44,9 @@ if SAVE:
 #				   ['16 happy','+',['/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/16/happy/distances.log']],
 #		]
 
-
-
+#plt.rc('axes', prop_cycle=(cycler('color', ['r', 'g', 'b', 'y', 'c', 'm', 'k', 'slategray', 'gold', 'peru'])))
+plt.rc('axes', prop_cycle=(cycler('color', ['b', 'c', 'y', 'm', 'c', 'm', 'k', 'slategray', 'gold', 'peru'])))
+# (0/255, 0/255, 0/255), (000/255, 70/255, 160/255), (201/255, 169/255, 000/255), 
 
 DB_BASE = '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/'
 ID = '*/'
@@ -46,10 +59,12 @@ DISTANCE_FILE_NAME = 'distances_v3.log'
 
 
 # comparing experiments
-distance_files = [ ['single mean all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/mean.'+DISTANCE_FILE_NAME)],
-				   ['single all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/???.'+DISTANCE_FILE_NAME)],
-				   ['multi all','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg30/'+DISTANCE_FILE_NAME)],
-				   ['mean face','*',glob(DB_BASE+ID+EXPRESSION+'mean_face/'+DISTANCE_FILE_NAME)],
+#plt.title("Error between 3D Scan and Fitting Result on KF-ITW")
+distance_files = [ #['single mean all','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/mean.'+DISTANCE_FILE_NAME)],
+				   #['Mean Face','*',glob(DB_BASE+ID+EXPRESSION+'mean_face/'+DISTANCE_FILE_NAME)],
+				   #['Single Image Fitting','*',glob(DB_BASE+ID+EXPRESSION+'single_iter400_reg30/???.'+DISTANCE_FILE_NAME)],
+				   ['Multi Image Fitting','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg30/'+DISTANCE_FILE_NAME)],
+#				   ['Best single Fittings','*',['/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/neutral/single_iter400_reg30/058.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/happy/single_iter400_reg30/127.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/surprised/single_iter400_reg30/010.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/08/neutral/single_iter400_reg30/053.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/08/surprised/single_iter400_reg30/001.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/11/neutral/single_iter400_reg30/076.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/11/happy/single_iter400_reg30/091.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/11/surprised/single_iter400_reg30/068.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/13/neutral/single_iter400_reg30/025.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/13/happy/single_iter400_reg30/026.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/13/surprised/single_iter400_reg30/070.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/16/neutral/single_iter400_reg30/163.distances_v3.log', '/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/16/happy/single_iter400_reg30/050.distances_v3.log']],
 				  ]
 # comparing regularisations
 #distance_files = [ ['multi all reg5','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg5/'+DISTANCE_FILE_NAME)],
@@ -61,17 +76,17 @@ distance_files = [ ['single mean all','*',glob(DB_BASE+ID+EXPRESSION+'single_ite
 #				  ]
 
 # comparing number of iterations
-#distance_files = [  ['multi 400 iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg30/'+DISTANCE_FILE_NAME)],
-#					['multi 100 iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter100_reg30/'+DISTANCE_FILE_NAME)],
-#					['multi 50  iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter50_reg30/'+DISTANCE_FILE_NAME)],
-#					['multi 10  iterations','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter10_reg30/'+DISTANCE_FILE_NAME)],
-#					['multi 5   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter5_reg30/'+DISTANCE_FILE_NAME)],
-#					['multi 4   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter4_reg30/'+DISTANCE_FILE_NAME)],
-#					['multi 3   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter3_reg30/'+DISTANCE_FILE_NAME)],
-#					['multi 2   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter2_reg30/'+DISTANCE_FILE_NAME)],
-#					['multi 1   iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter1_reg30/'+DISTANCE_FILE_NAME)],
-#					['mean face','o',glob(DB_BASE+ID+EXPRESSION+'mean_face/'+DISTANCE_FILE_NAME)],
-#				 ]
+#distance_files = [  #['400','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter400_reg30/'+DISTANCE_FILE_NAME)],
+					#['100','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter100_reg30/'+DISTANCE_FILE_NAME)],
+					#['50','+',glob(DB_BASE+ID+EXPRESSION+'multi_iter50_reg30/'+DISTANCE_FILE_NAME)],
+					#['10 iter.','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter10_reg30/'+DISTANCE_FILE_NAME)],
+					#['5 iter.','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter5_reg30/'+DISTANCE_FILE_NAME)],
+					#['4 iterations','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter4_reg30/'+DISTANCE_FILE_NAME)],
+					#['3 iter.','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter3_reg30/'+DISTANCE_FILE_NAME)],
+					#['2','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter2_reg30/'+DISTANCE_FILE_NAME)],
+					#['1 iter.','*',glob(DB_BASE+ID+EXPRESSION+'multi_iter1_reg30/'+DISTANCE_FILE_NAME)],
+					#['mean face','*',glob(DB_BASE+ID+EXPRESSION+'mean_face/'+DISTANCE_FILE_NAME)],
+				 #]
 
 
 # comparing expressions
@@ -97,6 +112,26 @@ distance_files = [ ['single mean all','*',glob(DB_BASE+ID+EXPRESSION+'single_ite
 #distance_files = [ ['multi 02 neutral pymesh imp','*',['/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/neutral/multi_iter400_reg30/distances.log']],
 #			       ['multi 02 neutral own','*',['/user/HS204/m09113/my_project_folder/KF-ITW-prerelease/02/neutral/multi_iter400_reg30/distances_own.log']]
 #				 ]
+
+# AFLW2000 experiment
+#distance_files = [  #['3DDFA with Surrey registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/3DDFA/_eval_with_surrey_mean/*distances_v3.log')],
+					#['3DDFA','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/3DDFA/_eval_without_surrey/*.distances_v3.log')],
+					#['eos iter200 reg30 with fitting registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter200_reg30/_eval_with_own_fitting_registration/*.distances_v3.log')],
+					#['eos iter50 reg30 with fitting registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter50_reg30/_eval_with_own_fitting_registration/*.distances_v3.log')],
+					#['eos','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter10_reg30/_eval_with_own_fitting_registration/*.distances_v3.log')],
+					#['eos iter5 reg30 with fitting registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter5_reg30/_eval_with_own_fitting_registration/*.distances_v3.log')],
+					#['eos iter2 reg30 with fitting registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter2_reg30/_eval_with_own_fitting_registration/*.distances_v3.log')],
+					#['eos iter1 reg30 with fitting registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter1_reg30/_eval_with_own_fitting_registration/*.distances_v3.log')],
+					#['eos iter10 reg30 with surrey mean registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter10_reg30/_eval_with_surrey_mean_reg/*.distances_v3.log')],
+					#['eos iter5 reg30 845model with surrey mean registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter5_reg30_845model/_eval_with_surrey_mean_registration/*.distances_v3.log')],
+					#['eos iter5 reg30 845model with surrey fitting registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter5_reg30_845model/_eval_with_surrey_fitting_registration/*.distances_v3.log')],
+					#['eos iter5 reg30 845model with own fitting registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter5_reg30_845model/_eval_with_own_fitting_registration/*.distances_v3.log')],
+					#['eos iter5  reg30 with surrey mean registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter5_reg30/_eval_with_surrey_mean_registration/*.distances_v3.log')],
+					#['eos iter5  reg30 front contour with surrey mean registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter5_reg30_front_contour/_eval_with_surrey_mean_registration/*distances_v3.log')],
+					#['eos iter5  reg30 without contour with surrey mean registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter5_reg30_without_contour/_eval_with_surrey_mean_registration/*distances_v3.log')],
+					#['eos iter10 reg30 static contour with surrey mean registration','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter10_reg30_static_contour/_eval_with_surrey_mean_registration/*distances_v3.log')],
+					#['eos iter10 reg30 on basel directly','*',glob('/user/HS204/m09113/my_project_folder/AFLW2000_fittings/eos_single_iter10_reg30/_eval_directly_basel_gt/*distances_v3.log')],
+				#]
 
 NORMALIZE = True
 # read diffs from files
@@ -141,21 +176,29 @@ for curve_idx in range(len(distance_files)):
 	plt.plot(x_coordinates, y_coordinates, label=distance_files[curve_idx][0], marker=distance_files[curve_idx][1])
 
 #print (x_coordinates)
-plt.plot([0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.055, 0.06], [0.0, 0.13, 0.26, 0.38, 0.49, 0.58, 0.67, 0.76, 0.82, 0.88, 0.91, 0.93, 0.94], label="imperial results eos without bs (entire db)")
-plt.plot([0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.055, 0.06], [0.0, 0.14, 0.30, 0.45, 0.59, 0.69, 0.79, 0.86, 0.91, 0.93, 0.95, 0.97, 0.98], label="imperial results their ITW (entire db)")
+plt.plot([0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.055, 0.06], [0.0, 0.13, 0.26, 0.38, 0.49, 0.585, 0.675, 0.76, 0.82, 0.87, 0.905, 0.93, 0.95], label="Earlier proposed*", marker='*')
+plt.plot([0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.055, 0.06], [0.0, 0.14, 0.30, 0.45, 0.59, 0.69, 0.79, 0.86, 0.91, 0.93, 0.95, 0.97, 0.98], label="ITW", marker='*')
+plt.plot([0.0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03, 0.035, 0.04, 0.045, 0.05, 0.055, 0.06], [0.0, 0.11, 0.22, 0.32, 0.42, 0.51, 0.59, 0.65, 0.71, 0.76, 0.80, 0.83, 0.86], label="Classic*", marker='*')
 # save or show figure
 
-plt.xlabel("vertex error")
-plt.ylabel("Vertexes proportion")
+plt.xlabel("Normalised vertex error")
+plt.ylabel("Vertices proportion")
 plt.ylim([0,1])
 plt.xlim([0,x_max])
+#plt.xlim([0.0275, 0.031])
+#plt.ylim([0.72,0.795])
+#plt.legend(loc=2, ncol=2)
 plt.legend(loc=4)
 #plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.) #place to the right
 plt.grid(True)
+
+
+
+
+if SAVE4PRES:
+	plt.savefig(SAVE4PRES+".png")
+
+if SAVE4LATEX:
+	texfig.savefig(SAVE4LATEX)
+
 plt.show()
-
-if SAVE:
-	texfig.savefig(SAVE)
-
-
-

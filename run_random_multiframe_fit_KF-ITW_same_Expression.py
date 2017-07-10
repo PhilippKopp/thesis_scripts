@@ -5,11 +5,11 @@ import eos_starter_lib as esl
 from concurrent.futures import ThreadPoolExecutor
 import random
 
-EXE = "/user/HS204/m09113/eos/eos_build14/examples/fit-model-multi-alpha-exp"
+EXE = "/user/HS204/m09113/eos/eos_build14/examples/fit-model-multi-time-exp"
 
 LOGNAME = "fitting.log"
 
-OUTPUTBASE = "/vol/vssp/facer2vm/people/Philipp/KF-ITW-prerelease_alpha_experiments/"
+OUTPUTBASE = "/user/HS204/m09113/my_project_folder/KF-ITW-prerelease_alpha_experiments/multi_model1.7k_iter10_reg30/"
 
 message = ""
 
@@ -79,7 +79,7 @@ with ThreadPoolExecutor(max_workers=20) as executor:
 						continue
 			
 					# prepare multi image fit command
-					cmd = esl.assemble_command(EXE, lms_exp, imgs_exp, outputfolder, regularisation=30.0, iterations=75)
+					cmd = esl.assemble_command(EXE, lms_exp, imgs_exp, outputfolder, regularisation=30.0, iterations=10, model="1.7k")
 			
 					# print id and start cmd
 					executor.submit(esl.start_and_log,"multiframe fitting on "+message, cmd, None, log=outputfolder+LOGNAME) #21600
