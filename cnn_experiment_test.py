@@ -19,7 +19,7 @@ from tensorflow.contrib import learn
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_string('experiment_folder', '40',
+tf.app.flags.DEFINE_string('experiment_folder', '21',
 													 """Directory where to write event logs """
 													 """and checkpoint.""")
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
@@ -50,11 +50,12 @@ else:
 
 
 #image_list=glob.glob('/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30/verification_templates/split1/10*/*'+file_ending)
-#image_list=glob.glob('/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30_256/verification_templates/*/*/*'+file_ending)
+image_list=glob.glob('/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30_256/verification_templates/*/*/*'+file_ending)
 #image_list=glob.glob('/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30/verification_templates/*/*/*'+file_ending)
 #image_list=glob.glob('/user/HS204/m09113/my_project_folder/IJB_A/face_boxes/*/*')
 #image_list=glob.glob('/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30_256_conf13_sm/verification_templates_merged/*/*')
-image_list=glob.glob('/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30_256_conf13_sm/verification_templates_take_best1/*/*')
+#image_list=glob.glob('/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30_256_conf13_sm/verification_templates_take_best1/*/*')
+#image_list=glob.glob('/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30_256_conf13_sm/verification_templates_merge_best3/*/*')
 
 print('found all files! Let\'s do the work now')
 Experint_BASE = '/user/HS204/m09113/my_project_folder/cnn_experiments/'
@@ -63,12 +64,15 @@ db_dir = experiment_dir+'/db_input/'
 train_dir = experiment_dir+'/train'
 eval_dir = experiment_dir+'/eval'
 eval_log = eval_dir+'/eval.log'
+test_log = experiment_dir+'/ijba_vectors.csv'
 #test_log = experiment_dir+'/merged_ijba_vectors.csv'
-test_log = experiment_dir+'/best1_ijba_vectors.csv'
+#test_log = experiment_dir+'/merge3_ijba_vectors.csv'
+#test_log = experiment_dir+'/best1_ijba_vectors.csv'
+
 
 #take_iter = 42469
-take_iter = 88477
-#take_iter= None
+#take_iter = 88477
+take_iter= None
 
 tf.logging.set_verbosity(tf.logging.DEBUG)
 
@@ -76,9 +80,10 @@ def test(saved_model_path, images, alphas=[]):
 	with tf.Graph().as_default():
 		
 		image_path_tensor = tf.placeholder(tf.string)
-		#image_tf = tf_utils.single_input_image(image_path_tensor, db_dir+mean_name, image_size=256)
+		image_tf = tf_utils.single_input_image(image_path_tensor, db_dir+mean_name, image_size=256)
 		#image_tf = tf_utils.single_input_image(image_path_tensor, '/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30_256_conf13_sm/templates_merged_mean.png', image_size=256)
-		image_tf = tf_utils.single_input_image(image_path_tensor, '/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30_256_conf13_sm/take_best1_merge_mean.png', image_size=256)
+		#image_tf = tf_utils.single_input_image(image_path_tensor, '/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30_256_conf13_sm/take_best1_merge_mean.png', image_size=256)
+		#image_tf = tf_utils.single_input_image(image_path_tensor, '/user/HS204/m09113/my_project_folder/IJB_A/multi_iter75_reg30_256_conf13_sm/best3_merge_mean.png', image_size=256)
 		image_tf = tf.expand_dims(image_tf,0)
 
 		# Build a Graph that computes the logits predictions from the inference model.

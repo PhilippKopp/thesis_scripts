@@ -3,9 +3,10 @@
 import scipy.io as sio
 import numpy as np
 
-ho_features_file = '/user/HS204/m09113/facer2vm_project_area/Share/IJB-A_feature/cnn_feature/face_train_test_netbuild112s56_17757.mat'
+#ho_features_file = '/user/HS204/m09113/facer2vm_project_area/Share/IJB-A_feature/cnn_feature/face_train_test_netbuild112s56_17757.mat'
+ho_features_file = '/user/HS204/m09113/facer2vm_project_area/Share/IJB-A_feature/cnn_feature/face_train_test_netbuild112s56_17757_3D.mat'
 
-ho_features_phil_style = '/user/HS204/m09113/my_project_folder/cnn_experiments/99_ho/ijba_vectors.csv'
+ho_features_phil_style = '/user/HS204/m09113/my_project_folder/cnn_experiments/80_ho/ijba_vectors.csv'
 
 
 

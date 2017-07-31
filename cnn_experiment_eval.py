@@ -18,7 +18,7 @@ from tensorflow.contrib import learn
 
 FLAGS = tf.app.flags.FLAGS
 
-tf.app.flags.DEFINE_string('experiment_folder', '09',
+tf.app.flags.DEFINE_string('experiment_folder', '21',
 													 """Directory where to write event logs """
 													 """and checkpoint.""")
 tf.app.flags.DEFINE_boolean('log_device_placement', False,
@@ -59,10 +59,10 @@ def eval(saved_model_path, db_loader):
 		elif cnn_db_loader.NUMBER_IMAGES==1 and cnn_db_loader.NUMBER_ALPHAS==0 and cnn_db_loader.NUMBER_XYZ==0:
 			image_list, labels_list = db_loader.get_eval_image_and_label_lists()
 
-			images, labels = tf_utils.inputs(image_list, labels_list, FLAGS.batch_size, db_loader.get_mean_image_path(), image_size=512)
+			images, labels = tf_utils.inputs(image_list, labels_list, FLAGS.batch_size, db_loader.get_mean_image_path(), image_size=256)
 
 			# Build a Graph that computes the logits predictions from the inference model.
-			logits, _ = cnn_tf_graphs.inference(network="alex", mode=learn.ModeKeys.EVAL, batch_size=FLAGS.batch_size, num_classes=db_loader.number_ids, input_image_tensor=images, image_size=512)
+			logits, _ = cnn_tf_graphs.inference(network="alex", mode=learn.ModeKeys.EVAL, batch_size=FLAGS.batch_size, num_classes=db_loader.number_ids, input_image_tensor=images, image_size=256)
 
 		elif cnn_db_loader.NUMBER_IMAGES==0 and cnn_db_loader.NUMBER_ALPHAS==0 and cnn_db_loader.NUMBER_XYZ==1:
 			image_list, labels_list = db_loader.get_eval_xyz_and_label_lists()

@@ -6,7 +6,7 @@ import obj_analysis_lib as oal
 from scipy.spatial import distance
 
 
-verification_exp_base = '/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_51/'
+verification_exp_base = '/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_89/'
 MATCHING_FOLDER = 'matching_cos/'
 if not os.path.exists(verification_exp_base+MATCHING_FOLDER):
 	os.mkdir(verification_exp_base+MATCHING_FOLDER)

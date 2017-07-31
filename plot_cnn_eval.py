@@ -23,25 +23,44 @@ if SAVE4PRES:
 	#plt.rcParams["font.family"] ="monospace"
 	plt.figure(figsize=(10, 8/3*2))
 
-experiment_paths = [ #['01 ', '/user/HS204/m09113/my_project_folder/cnn_experiments/01/'],
-					 ['02 alex', '/user/HS204/m09113/my_project_folder/cnn_experiments/02/'],
-					 ['03 dcnn', '/user/HS204/m09113/my_project_folder/cnn_experiments/03/'],
-					 ['04 alex on xyz', '/user/HS204/m09113/my_project_folder/cnn_experiments/04/'],
-					 ['05 alex 256', '/user/HS204/m09113/my_project_folder/cnn_experiments/05/'],
-					 ['09 alex facebox', '/user/HS204/m09113/my_project_folder/cnn_experiments/09/'],
-					 ['11 alex with alpha', '/user/HS204/m09113/my_project_folder/cnn_experiments/11/'],
-					 ['12 alex with rgb+xyz (on trainingset)', '/user/HS204/m09113/my_project_folder/cnn_experiments/12/'],
-					 ['13 dcnn with rgb+xyz', '/user/HS204/m09113/my_project_folder/cnn_experiments/13/'],
-					 ['20 alex only good isomaps', '/user/HS204/m09113/my_project_folder/cnn_experiments/20/'],
-					 ['40 alex 3 merging', '/user/HS204/m09113/my_project_folder/cnn_experiments/40/'],
-					 ['41 alex 3 merging', '/user/HS204/m09113/my_project_folder/cnn_experiments/41/'],
-					 ['45 alex 3 merging', '/user/HS204/m09113/my_project_folder/cnn_experiments/45/'],
-					]
+FR_EXPERIMENT = False
+
+if FR_EXPERIMENT:
+	experiment_paths = [ #['01 ', '/user/HS204/m09113/my_project_folder/cnn_experiments/01/'],
+						 ['02 alex', '/user/HS204/m09113/my_project_folder/cnn_experiments/02/'],
+						 ['03 dcnn', '/user/HS204/m09113/my_project_folder/cnn_experiments/03/'],
+						 ['04 alex on xyz', '/user/HS204/m09113/my_project_folder/cnn_experiments/04/'],
+						 ['05 alex 256', '/user/HS204/m09113/my_project_folder/cnn_experiments/05/'],
+						 ['09 alex facebox', '/user/HS204/m09113/my_project_folder/cnn_experiments/09/'],
+						 ['11 alex with alpha', '/user/HS204/m09113/my_project_folder/cnn_experiments/11/'],
+						 ['12 alex with rgb+xyz (on trainingset)', '/user/HS204/m09113/my_project_folder/cnn_experiments/12/'],
+						 ['13 dcnn with rgb+xyz', '/user/HS204/m09113/my_project_folder/cnn_experiments/13/'],
+						 ['20 alex only good isomaps', '/user/HS204/m09113/my_project_folder/cnn_experiments/20/'],
+						 ['21 alex with merged isomaps', '/user/HS204/m09113/my_project_folder/cnn_experiments/21/'],
+						 ['40 alex 3 merging', '/user/HS204/m09113/my_project_folder/cnn_experiments/40/'],
+						 ['41 alex 3 merging', '/user/HS204/m09113/my_project_folder/cnn_experiments/41/'],
+						 ['45 alex 3 merging', '/user/HS204/m09113/my_project_folder/cnn_experiments/45/'],
+						]
+else:
+	experiment_paths = [ ['01 loss', '/user/HS204/m09113/my_project_folder/IJB_A/nn_score_chooser/01/training_loss.csv'],
+						 ['01 accuracy', '/user/HS204/m09113/my_project_folder/IJB_A/nn_score_chooser/01/training_acc.csv'],
+						 ['02 loss', '/user/HS204/m09113/my_project_folder/IJB_A/nn_score_chooser/02/training_loss.csv'],
+						 ['02 accuracy', '/user/HS204/m09113/my_project_folder/IJB_A/nn_score_chooser/02/training_acc.csv'],
+						 ['03 loss', '/user/HS204/m09113/my_project_folder/IJB_A/nn_score_chooser/03/training_loss.csv'],
+						 ['03 accuracy', '/user/HS204/m09113/my_project_folder/IJB_A/nn_score_chooser/03/training_acc.csv'],
+						 ['04 loss', '/user/HS204/m09113/my_project_folder/IJB_A/nn_score_chooser/04/training_loss.csv'],
+						 ['04 accuracy', '/user/HS204/m09113/my_project_folder/IJB_A/nn_score_chooser/04/training_acc.csv'],
+						]
+
+
 
 
 for i in range(len(experiment_paths)):
 	experiment_path = experiment_paths[i][1]
-	eval_log = experiment_path+'eval/eval.log'
+	if FR_EXPERIMENT:
+		eval_log = experiment_path+'eval/eval.log'
+	else:
+		eval_log = experiment_path
 
 	x_coordinates = []
 	y_coordinates = []

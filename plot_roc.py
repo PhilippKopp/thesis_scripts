@@ -7,12 +7,12 @@ from math import sqrt
 import glob
 import sklearn.metrics
 
-OUTPUTPATH="/user/HS204/m09113/my_project_folder/Results/roc_IJB_A_verification_input"
+OUTPUTPATH="/user/HS204/m09113/my_project_folder/Results/roc_IJB_A_verification_conf_feature_weights"
 #OUTPUTPATH="/user/HS204/m09113/my_project_folder/Results/roc_IJB_A_verification"
 SAVE4PRES =None
 SAVE4LATEX=None
 
-#SAVE4LATEX=OUTPUTPATH
+SAVE4LATEX=OUTPUTPATH
 #SAVE4PRES =OUTPUTPATH
 
 
@@ -67,32 +67,52 @@ plt.rc('axes', prop_cycle=(cycler('color', ['r', 'g', 'b', 'y', 'c', 'gold', 'm'
 #		  #["PaSC handheld set", "/user/HS204/m09113/my_project_folder/PaSC/multi_fit_CCR_iter75_reg30_handheld_without_fte.csv" ]
 #		]
 
-plots = [ #["alphas", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_00/matching_cos/split*.simmmatrix") ], 
-		  #["alphas only l2", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_00/matching_l2/split?.simmmatrix") ], 
-		  #["cnn exp 1: alexNetv1 cos", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_01/matching_cos/split?.simmmatrix" )],
-		  #["xyz alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_04/matching_cos/split*.simmmatrix" )],
-		  #["rgb alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_02/matching_cos/split*.simmmatrix" )],
-		  #["facebox alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_09/matching_cos/split*.simmmatrix" )],
-		  #["rgb alexNet 256 cos", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_05/matching_cos/split*.simmmatrix" )],
-		  #["rgb+alphas alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_11/matching_cos/split*.simmmatrix" )],
-		  #["rgb+xyz alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_12/matching_cos/split*.simmmatrix" )],
-		  #["cnn + alphas", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_02/matching/split?.simmmatrix" )],
-		  #["rgb dcnn", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_03/matching_cos/split*.simmmatrix" )],
-		  ["rgb+xyz dcnn", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_13/matching_cos/split*.simmmatrix" )],
-		  ["Ho", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_99/matching_cos/split*.simmmatrix" )],
-		  ["ideal Ho PH merge (36142)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_98/matching_cos/split*.simmmatrix" )],
-		  ["Ho PH merge, taking higher (64770)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_97/matching_cos/split*.simmmatrix" )],
-		  ["Ho PH merge, taking lower (52464)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_96/matching_cos/split*.simmmatrix" )],
-		  ["Ho PH merge, taking fancy 25 (29263)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_95/matching_cos/split*.simmmatrix" )],
-		  ["Ho PH merge, taking fancy 45 (15787)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_94/matching_cos/split*.simmmatrix" )],
-		  ["Ho PH merge, taking fancy 65 (1700)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_93/matching_cos/split*.simmmatrix" )],
-		  ["Ho PH merge, more confident -0.1 <> 0.8 (1652)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_92/matching_cos/split*.simmmatrix" )],
-		  ["Ho PH merge, more confident 0.0 <> 0.7 (5227)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_91/matching_cos/split*.simmmatrix" )],
-		  #["score mean xyz alex+rgb dcnn", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_80/matching_cos/split*.simmmatrix" )],
-		  #["conf13sm alex merge 50", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_50/matching_cos/split*.simmmatrix" )],
-		  #["conf13sm alex merge 51", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_51/matching_cos/split*.simmmatrix" )],
-		  #["conf13sm best1 alex 55", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_55/matching_cos/split*.simmmatrix" )],
-		  #["conf13sm best1 alex 56", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/verification_exp_56/matching_cos/split*.simmmatrix" )],
+plots = [ #["alphas", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_00/matching_cos/split*.simmmatrix") ], 
+		  #["alphas only l2", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_00/matching_l2/split?.simmmatrix") ], 
+		  #["cnn exp 1: alexNetv1 cos", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_01/matching_cos/split?.simmmatrix" )],
+		  #["xyz alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_04/matching_cos/split*.simmmatrix" )],
+		  #["rgb alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_02/matching_cos/split*.simmmatrix" )],
+		  #["rgb alexNet_special", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_21/matching_cos/split*.simmmatrix" )],
+		  #["facebox alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_09/matching_cos/split*.simmmatrix" )],
+		  
+		  #["rgb alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_05/matching_cos/split*.simmmatrix" )],
+		  #["feature averaging", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_05/matching_cos/split*.simmmatrix" )],
+
+		  #["rgb alexNet confidence averg", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_06/matching_cos/split*.simmmatrix" )],
+		  #["rgb alexNet confidence sm averg", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_07/matching_cos/split*.simmmatrix" )],
+		  #["rgb alexNet confidence sm10 averg", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_08/matching_cos/split*.simmmatrix" )],
+		  #["rgb+alphas alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_11/matching_cos/split*.simmmatrix" )],
+		  #["rgb+xyz alexNet", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_12/matching_cos/split*.simmmatrix" )],
+		  #["cnn + alphas", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_02/matching/split?.simmmatrix" )],
+		  #["rgb dcnn", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_03/matching_cos/split*.simmmatrix" )],
+		  ["rgb+xyz dcnn", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_13/matching_cos/split*.simmmatrix" )],
+		  #["rgb+xyz dcnn confidence feature averg", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_14/matching_cos/split*.simmmatrix" )],
+		  ["rgb+xyz dcnn conf. feature averg.", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_15/matching_cos/split*.simmmatrix" )],
+		  ["Ho 2D", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_99/matching_cos/split*.simmmatrix" )],
+		  #["Ho 2D confidence averg", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_89/matching_cos/split*.simmmatrix" )],
+		  ["Ho 2D conf. feature averg.", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_90/matching_cos/split*.simmmatrix" )],
+		  #["Ho 3D", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_80/matching_cos/split[!1]*.simmmatrix" )],
+		  #["ideal Ho2D PH score merge (36142)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_98/matching_cos/split*.simmmatrix" )],
+		  #["Ho PH score merge, taking higher (64770)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_97/matching_cos/split*.simmmatrix" )],
+		  #["Ho PH merge, taking lower (52464)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_96/matching_cos/split*.simmmatrix" )],
+		  #["Ho PH merge, taking pose 25 (29263)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_95/matching_cos/split*.simmmatrix" )],
+		  #["Ho PH merge, taking pose 45 (15787)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_94/matching_cos/split*.simmmatrix" )],
+		  #["Ho2D PH score merge, taking pose 65 (1700)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_93/matching_cos/split*.simmmatrix" )],
+		  #["Ho PH merge, more confident -0.1 <> 0.8 (1652)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_92/matching_cos/split*.simmmatrix" )],
+		  #["Ho PH merge, more confident 0.0 <> 0.7 (5227)", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_91/matching_cos/split*.simmmatrix" )],
+		  #["HoHoPH score merge, 50nn", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_81/matching_cos/split[!1]*.simmmatrix" )],
+		  #["Score choosing with NN", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_82/matching_cos/split[!1]*.simmmatrix" )],
+		  #["HoHoPH score merge, 90nn", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_83/matching_cos/split[!1]*.simmmatrix" )],
+		  #["HoHoPH score merge, 110nn", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_84/matching_cos/split[!1]*.simmmatrix" )],
+		  
+		  #["texture merge all", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_50/matching_cos/split*.simmmatrix" )],
+		  #["texture merge best1", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_51/matching_cos/split*.simmmatrix" )],
+		  #["texture merge best3", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_52/matching_cos/split*.simmmatrix" )],
+		  #["conf13sm alex_normal merge_all alex 55", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_55/matching_cos/split*.simmmatrix" )],
+		  #["conf13sm alex_normal take1 alex 56", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_56/matching_cos/split*.simmmatrix" )],
+		  #["conf13sm alex_special merge3 alex 62", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_62/matching_cos/split*.simmmatrix" )],
+		  #["conf13sm alex_special take1 alex 61", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_61/matching_cos/split*.simmmatrix" )],
+		  #["conf13sm alex_special merge_all alex 60", glob.glob("/user/HS204/m09113/my_project_folder/IJB_A/fr_verification_experiments/verification_exp_60/matching_cos/split*.simmmatrix" )],
 		]
 
 

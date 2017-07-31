@@ -680,4 +680,35 @@ def read_fitting_time_from_log(fitting_log_file):
 	return delta_overall.total_seconds()
 
 
+def read_pose_from_log(fitting_log_file):
+	lines=[]
+	with open(fitting_log_file, "r") as fitting_log:
+		for line in fitting_log:
+			lines.append(line)
+
+	all_poses=[]
+	parse=False
+	for line in lines:
+		if line.startswith('Finished fitting') or len(line)<=1:
+			parse=False
+
+		if parse:
+			parts=line.split(', ')
+			pose = [float(x) for x in parts[1:4]]
+			all_poses.append(pose)
+
+		if line.startswith('lm_file,'):
+			parse=True
+
+	if len(all_poses)==0:
+		print('no poses found in fitting log file', fitting_log_file)
+		raise OalException
+
+	poses_np = np.array(all_poses)
+	#print(fitting_log_file)
+	#print(poses_np)
+	mean_poses = np.mean(poses_np, axis=0).tolist()
+	std_dev_poses = np.std(poses_np, axis=0).tolist()
+	return mean_poses, std_dev_poses
+
 
