@@ -33,7 +33,7 @@ def read_pts(filename):
 	landmarks = []
 	for l in lines:
 		coords = l.split()
-		landmarks.append([float(coords[0]), float(coords[1])])
+		landmarks.append([float(coords[0])-1.0, float(coords[1])-1.0])#-1 as ibug pts files have 1 indexing
 
 	return landmarks
 
